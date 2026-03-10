@@ -1,70 +1,59 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
-import { TextField, Button, Container, Typography, Box, Alert } from '@mui/material';
+import { Button, Box } from '@mui/material';
 
-const Login = () => {
-  const { t } = useTranslation();
-  const [aadhaar, setAadhaar] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+const LanguageSelector = () => {
+  const { i18n } = useTranslation();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    try {
-      const res = await axios.post('/api/auth/login', { aadhaar });
-      localStorage.setItem('token', res.data.token);
-      const { role } = res.data.user;
-      navigate(role === 'Farmer' ? '/farmer' : '/middleman'); // Redirect to dashboard (stub for now)
-    } catch (err) {
-      setError(err.response?.data?.msg || t('auth.error'));
-    }
+  const handleLanguageChange = (lng) => {
+    i18n.changeLanguage(lng);
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
+    <Box
+      sx={{
+        display: 'flex',
+        gap: 1,
+        alignItems: 'center',
+        ml: 2,
+      }}
+    >
+      <span style={{ color: '#fff', fontSize: '1.2rem' }}>🌐</span>
+      <Button
+        color="inherit"
+        onClick={() => handleLanguageChange('en')}
         sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          fontWeight: i18n.language === 'en' ? 700 : 400,
+          borderBottom: i18n.language === 'en' ? '2px solid #fff' : 'none',
+          borderRadius: 0,
+          textTransform: 'none',
+          fontSize: 14,
+          '&:hover': {
+            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          },
         }}
       >
-        <Typography component="h1" variant="h5">
-          {t('app.title')} - {t('auth.login')}
-        </Typography>
-        {error && <Alert severity="error" sx={{ mt: 2, width: '100%' }}>{error}</Alert>}
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="aadhaar"
-            label={t('auth.aadhaar')}
-            name="aadhaar"
-            autoComplete="off"
-            value={aadhaar}
-            onChange={(e) => setAadhaar(e.target.value)}
-            inputProps={{ maxLength: 12, pattern: '\\d{12}' }}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            {t('auth.submit')}
-          </Button>
-          <Link to="/register" variant="body2">
-            {t('auth.register')}?
-          </Link>
-        </Box>
-      </Box>
-    </Container>
+        EN
+      </Button>
+      <span style={{ color: '#fff' }}>|</span>
+      <Button
+        color="inherit"
+        onClick={() => handleLanguageChange('ta')}
+        sx={{
+          fontWeight: i18n.language === 'ta' ? 700 : 400,
+          borderBottom: i18n.language === 'ta' ? '2px solid #fff' : 'none',
+          borderRadius: 0,
+          textTransform: 'none',
+          fontSize: 14,
+          '&:hover': {
+            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          },
+        }}
+      >
+        TA
+      </Button>
+    </Box>
   );
 };
 
-export default Login;
+export default LanguageSelector;
