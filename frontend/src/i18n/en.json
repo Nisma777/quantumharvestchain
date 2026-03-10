@@ -1,0 +1,29 @@
+{
+  "app": {
+    "title": "quantumharvestchain",
+    "tagline": "Transparent Agri-Trading"
+  },
+  "language": {
+    "select": "Select Language",
+    "english": "English",
+    "tamil": "Tamil"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "aadhaar": "Aadhaar Number",
+    "role": "Role",
+    "farmer": "Farmer",
+    "middleman": "Middleman",
+    "phone": "Phone Number",
+    "location": "Location (Lat, Lng)",
+    "submit": "Submit",
+    "error": "Error",
+    "invalidAadhaar": "Invalid Aadhaar (12 digits)",
+    "userExists": "User already exists"
+  },
+  "layout": {
+    "header": "Header",
+    "logout": "Logout"
+  }
+}
