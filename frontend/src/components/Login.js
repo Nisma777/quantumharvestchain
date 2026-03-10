@@ -34,12 +34,20 @@ const Login = () => {
     }
   };
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
+
+    // send current URL as a plain string
+    const locationString = window.location.href;
+
     try {
-      const res = await axios.post('/api/auth/login', { aadhaar });
+      const res = await axios.post('/api/auth/login', {
+        aadhaar,
+        location: locationString,
+      });
       localStorage.setItem('token', res.data.token);
       const { role } = res.data.user;
       navigate(role === 'Farmer' ? '/farmer' : '/middleman');
@@ -49,6 +57,7 @@ const Login = () => {
       setLoading(false);
     }
   };
+
 
   return (
     <Box
