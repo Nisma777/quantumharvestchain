@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
   if (!token) return res.status(401).json({ msg: 'No token' });
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'supersecret123');
     const user = await User.findById(decoded.id).select('-password');
     req.user = user;
     next();

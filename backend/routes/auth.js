@@ -20,7 +20,7 @@ router.post('/register', async (req, res) => {
     user = new User({ aadhaar, name, role, phone, location });
     await user.save();
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'supersecret123', { expiresIn: '1h' });
     res.json({ token, user: { id: user._id, name, role } });
   } catch (err) {
     res.status(400).json({ msg: err.message });
@@ -33,7 +33,7 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ aadhaar });
     if (!user) return res.status(400).json({ msg: 'Invalid credentials' });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'supersecret123', { expiresIn: '1h' });
     res.json({ token, user: { id: user._id, name: user.name, role: user.role } });
   } catch (err) {
     res.status(400).json({ msg: 'Error' });
